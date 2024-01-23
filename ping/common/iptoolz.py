@@ -13,7 +13,21 @@ Todo:
 
 import socket
 import ipaddress
+import psutil
 import re
+
+
+def get_my_nics():
+    def get_nic_addrs( family ):
+        for interface, items in psutil.net_if_addrs().items() :
+            for nic in items :
+                if nic.family == family :
+                    yield( interface, nic.address )
+    
+    return {
+        'ipv4': get_nic_addrs(socket.AF_INET),
+        'ipv6': get_nic_addrs(socket.AF_INET6),
+    }
 
 def is_my_nic_addr(ipaddr):
     """
@@ -23,9 +37,12 @@ def is_my_nic_addr(ipaddr):
     Return:
         bool : True = is local macine have this ipaddress
     """
-    nic_addr_list = socket.gethostbyname_ex(socket.gethostname())
-    check_my_nic_addr = ipaddr in nic_addr_list[2]
-
+    ## この方法だとWindowsしかNICのリストが取れないので、psutil使う方法に変更した。
+    # nic_addr_list = socket.gethostbyname_ex(socket.gethostname())
+    # check_my_nic_addr = ipaddr in nic_addr_list[2]
+    local_nic_list = get_my_nics()
+    local_ipv4_list = [nic[1] for nic in local_nic_list['ipv4']]
+    check_my_nic_addr = ipaddr in local_ipv4_list
     if check_my_nic_addr:
         return 0
     else:

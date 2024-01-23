@@ -113,6 +113,21 @@ booya_ping -p -l 1.1.1.1,8.8.4.4
     ```powershell
     Set-Item ENV:Path $ENV:Path.Replace("置換前のパス;", "置換後のパス;")
     ```
+#### 参考(ssh server)
+SSHサーバインストール
+```powershell
+Get-WindowsCapability -Online | ? { $_.Name -like 'OpenSSH*'}
+Add-WindowsCapability -Online -Name 'OpenSSH.Server~~~~0.0.1.0'
+```
+サービス起動・スタートアップ起動
+```powershell
+Start-Service -Name "sshd"
+Set-Service -Name "sshd" -StartupType Automatic 
+```
+サービス停止
+```powershell
+Stop-Service -Name "sshd"
+```
 
 ### linux
 任意のディレクトリに解凍して、booya_pingのsymlinkをパスが通ってるところに作成すればOK

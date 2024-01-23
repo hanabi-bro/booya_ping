@@ -13,6 +13,12 @@ sudo apt install -y python3 python3-pip python3-venv python-is-python3 \
 ```
 #### pyenv使う場合
 nuitka利用する場合はpythonはdisable-sharedしてビルドする必要がある。
+
+前提）ユーザーが'users'グループに所属している事
+```bash
+git clone https://github.com/pyenv/pyenv.git ${PYENV_ROOT}
+```
+
 ```bash
 sudo apt install -y curl git wget tmux openssl \
   build-essential make ccache patchelf \
@@ -36,11 +42,11 @@ pyenv rehash
 pyenv global 3.11.6
 
 ## add bashrc
-cat << 'EOF' | tee -a ~/.bashrc > /dev/null
+cat << EOF | tee -a ~/.bashrc > /dev/null
 ## pyenv
 export PYENV_ROOT="/opt/pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:\$PATH"
+eval "\$(pyenv init -)"
 
 EOF
 
@@ -84,12 +90,12 @@ BOOYA_PATH=${HOME}/tmp/booya_ping
 # BOOYA_PATH=${HOME}/tmp/booya_ping
 
 cd ${BOOYA_PATH}
+git clone https://github.com/hanabi-bro/booya_ping.git .
+cd booya_ping
 python -m venv venv
 source venv/bin/activate
 python -m pip install -U pip wheel setuptools cpython
-git clone https://xxxx.xx .
-python -m pip install -r requiments.txt
-python -m pip install nuitka zstandard
+python -m pip install -r requirements_nuitka.txt
 python -m nuitka \
   --standalone \
   --follow-imports \
@@ -101,13 +107,13 @@ python -m nuitka \
   --include-data-file="./ping/config.ini=./" \
   --include-data-file="./README.md=./" \
   --force-stderr-spec="%PROGRAM_BASE%.err.log" \
-  ./ping/booya_ping_tui.py
+  ./ping/booya_ping.py
 
 cp -r booya_ping_tui.dist ${INSTALL_PATH}/booya_ping
 sudo chgrp -R users ${INSTALL_PATH}/booya_ping
 sudo chmod -R g+rwxXs ${INSTALL_PATH}/booya_ping
 sudo sudo setcap cap_net_raw=eip ${INSTALL_PATH}/booya_ping/booya_ping
-ln -fs ${INSTALL_PATH}/booya_ping/booya_ping /usr/sh
+ln -fs ${INSTALL_PATH}/booya_ping/booya_ping ${BIN_DIR}/.
 ```
 
 ## Windows Build
