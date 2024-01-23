@@ -18,15 +18,23 @@ import re
 
 
 def get_my_nics():
-    def get_nic_addrs( family ):
-        for interface, items in psutil.net_if_addrs().items() :
-            for nic in items :
-                if nic.family == family :
-                    yield( interface, nic.address )
+    nic_list = {
+        'ipv4': [],
+        'ipv6': [],
+    }
+    def get_nic_addrs(ipv='ipv4'):
+        if ipv == 'ipv4':
+            family = socket.AF_INET
+        elif ipv == 'ipv6':
+            family = socket.AF_INET6
+        for interface, items in psutil.net_if_addrs().items():
+            for nic in items:
+                if nic.family == family:
+                    yield(interface, nic.address)
     
     return {
-        'ipv4': get_nic_addrs(socket.AF_INET),
-        'ipv6': get_nic_addrs(socket.AF_INET6),
+        'ipv4': list(get_nic_addrs('ipv4')),
+        'ipv6': list(get_nic_addrs('ipv6')),
     }
 
 def is_my_nic_addr(ipaddr):
