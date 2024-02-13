@@ -107,6 +107,7 @@ python -m nuitka \
   --include-data-file="./ping/config.ini=./" \
   --include-data-file="./README.md=./" \
   --force-stderr-spec="%PROGRAM_BASE%.err.log" \
+  --linux-icon="./icon/booya_ping.ico" \
   ./ping/booya_ping.py
 
 cp -r booya_ping_tui.dist ${INSTALL_PATH}/booya_ping
@@ -114,6 +115,11 @@ sudo chgrp -R users ${INSTALL_PATH}/booya_ping
 sudo chmod -R g+rwxXs ${INSTALL_PATH}/booya_ping
 sudo sudo setcap cap_net_raw=eip ${INSTALL_PATH}/booya_ping/booya_ping
 ln -fs ${INSTALL_PATH}/booya_ping/booya_ping ${BIN_DIR}/.
+```
+
+インストールディレクトリのアップデート
+```bash
+rsync -rcv --update --exclude=config.ini booya_ping.dist/ ${HOME}/.local/booya_ping
 ```
 
 ## Windows Build
@@ -129,6 +135,7 @@ python -m nuitka `
   --include-data-file="./ping/config.ini=./" `
   --include-data-file="./README.md=./" `
   --force-stderr-spec="%PROGRAM_BASE%.err.log" `
+  --windows-icon-from-ico="./icon/booya_ping.ico" `
   .\ping\booya_ping.py
 ```
 
