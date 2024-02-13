@@ -6,7 +6,7 @@ results/*.csv
 *.dist/
 *.build/
 booya_log/
-release/*
+release/
 
 
 
