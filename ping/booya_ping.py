@@ -143,10 +143,14 @@ class BooyaPing(App):
 
 
 if __name__ == '__main__':
+    from argparse import ArgumentParser, RawTextHelpFormatter
+    class MyArgumentParser(ArgumentParser):
+        def error(self, message):
+            print('error occured while parsing args : '+ str(message))
+            self.print_help() 
+            exit()
 
-    from argparse import ArgumentParser
-
-    parser = ArgumentParser(description='booya ping and traceroute tui')
+    parser = MyArgumentParser(description='booya ping and traceroute tui')
     parser.add_argument('-p', '--ping', action='store_true', help='execute ping')
     parser.add_argument('-t', '--tr',  action='store_true', help='execute traceroute')
     parser.add_argument('-f', '--file',  help='target list file name')
