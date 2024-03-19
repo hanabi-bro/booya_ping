@@ -22,6 +22,13 @@
   - Linux
     * booya_ping/booya_ping
 
+* Ping実行結果
+  - ok: ☻, ttl_expire: ⧛, ng(timeout, unrechable, othre): ☠
+
+* Traceroute実行結果
+  - ルート番号を表示
+    - ルートは,booya_log/<src ip>-<dst ip>_traceroute.csvのroutesに記録
+
 ## 使い方
 1. ログディレクトリを指定
     `booya_ping/config.ini`の`base_directory`で出力ディレクトリを指定

@@ -1,0 +1,51 @@
+PingRow {
+    layout: horizontal;
+    width: 1fr;
+    height: 2;
+}
+
+TrRow {
+    layout: horizontal;
+    width: 1fr;
+    height: 2;
+}
+
+.head_row {
+    height: 3;
+    background: blue;
+}
+
+.head_row_tr {
+    height: 3;
+    background: teal;
+}
+
+.res_heder_row {
+    height: 2;
+}
+
+.res_header_dst_src {
+    width: 20;
+}
+
+.res_header_count {
+    width: 6;
+}
+
+.res_rows {
+
+}
+
+.res_dst_src {
+    width: 20;
+}
+
+.res_count {
+    width: 6;
+}
+
+.res_history {
+    width: 1fr;
+    min_width: 30;
+    max_width: 30;
+}

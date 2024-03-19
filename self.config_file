@@ -1,0 +1,3 @@
+[default]
+# base_directory = C:\opt\logooya_log
+base_directory = ~/booya_log
