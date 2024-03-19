@@ -34,7 +34,7 @@ def addr_validate_src(src, validate_err):
     validate_err.setdefault('err', [])
     validate_err.setdefault('warn', [])
     if itz.is_fqdn(src) != 0:
-        validate_err['err'].append(f'dst addr {src} is not valid format')
+        validate_err['err'].append(f'src addr {src} is not valid format')
     elif itz.is_resolve(src) != 0:
         validate_err['err'].append(f'src addr {src} can not resolved name')
     elif itz.is_my_nic_addr(src) != 0:

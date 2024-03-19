@@ -238,12 +238,13 @@ class PingWidget(Widget):
         if target_list is not None:
             self.target_list = target_list
         self.remove_all()
-        self.mount_all()
+        self.mount_rows()
 
     def remove_all(self):
         self.remove_row()
 
-    def mount_all(self):
+    def mount_rows(self):
+        # textual 5.x ?からmount_allが組み込み関数に追加されてるっぽいのでrename
         for t in self.target_list:
             self.mount_row(t)
         self.btn_state()

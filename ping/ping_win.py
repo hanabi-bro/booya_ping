@@ -8,7 +8,7 @@ logger = my_logger(__name__, level='DEBUG')
 
 run(['chcp.com', '65001'], capture_output=True)
 
-def ping(dst, src=None, timeout=1, ttl=16, block_size=64, id=None, seq=None):
+def ping(dst, src=None, timeout=1, ttl=16, block_size=64, id=None, seq=None, debug=False):
     """run
     return:
         res(dict):  [reply_type, ttl, src, dst, reply_from, starttime, rtt]
@@ -44,18 +44,20 @@ def ping(dst, src=None, timeout=1, ttl=16, block_size=64, id=None, seq=None):
 
     rtt = (datetime.now() - starttime).total_seconds()
 
-    logger.debug(f'{ping_res}')
+    if debug: logger.debug(f'{ping_res}')
 
     if ping_res.returncode == 0:
         for i in ping_res.stdout.rstrip("\n").split("\n"):
-            if re.search(r'Reply from (\d+\.\d+\.\d+\.\d+): TTL expired in transit', i):
+            if re.search(r'Reply +from +(\d+\.\d+\.\d+\.\d+): +TTL +expired +in +transit', i):
                 icmp_type = 11
                 reply_from = re.search(
-                        r'Reply from (\d+\.\d+\.\d+\.\d+): .*', i).groups()[0]
+                        r'Reply +from +(\d+\.\d+\.\d+\.\d+): +.*', i).groups()[0]
                 break
             
             ## Success (Get icmp type 0)
-            elif re.search(r'Reply from (\d+\.\d+\.\d+\.\d+): bytes=.* time=.* TTL=.*', i):
+            # 応答時間が早い場合 '=' ではなく '<' が使われたりする。全仕様が不明なのでワイルドカードに変更
+            # Reply from 192.168.0.1: bytes=64 time<1ms TTL=255
+            elif re.search(r'Reply +from +(\d+\.\d+\.\d+\.\d+): +bytes.* +time.* +TTL.*', i):
                 icmp_type = 0
                 reply_from = re.search(
                         r'Reply from (\d+\.\d+\.\d+\.\d+): .*', i).groups()[0]
