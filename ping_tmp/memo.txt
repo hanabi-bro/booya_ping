@@ -1,8 +1,0 @@
-・target.csvが不正な書式(全角交じり、半角スペース交じり、解決できないFQDNなど)の場合に落ちるのは仕様でしょうか
-・パス通して実行するとカレントディレクトリにbooya_logがない場合は作成される
-→booya_logディレクトリは固定するか指定できると嬉しいです
-・linuxはsshから実行してクリック操作できてwindowsはsshからだとクリックは受け付けずキーボードからのみ操作できました(これはバグというよりwindowsのせい？よくわからないです)
-・ラズパイ
-以下エラーで起動できず
-admin@raspberrypi:/usr/local $ booya_ping
--bash: /usr/local/bin/booya_ping: cannot execute binary file: Exec format error
