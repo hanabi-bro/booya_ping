@@ -13,10 +13,10 @@ class Config():
     def __gen_config_init(self):
         body = dedent('''\
             [default]
-            # base_directory = C:\opt\log\booya_log
+            # base_directory = C:\opt\log\\booya_log
             base_directory = ~/booya_log
         ''')[:-1]
-        with open('self.config_file', 'w', encoding='UTF-8') as f:
+        with open(self.config_file, 'w', encoding='UTF-8') as f:
             print(body, file=f)
 
     def read(self):
