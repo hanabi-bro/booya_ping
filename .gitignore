@@ -7,7 +7,7 @@ results/*.csv
 *.build/
 booya_log/
 release/
-
+config.ini
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/windows,django,python,vscode

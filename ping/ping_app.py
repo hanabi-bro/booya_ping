@@ -27,9 +27,15 @@ class PingRow(Static):
 
         self.dst = ''
         self.src = ''
+        self.dst_comment = ''
         self.validate_err = {}
         self.check_target(target)
-        self.res_dst_src_col = Label(f'{self.dst}\n[#808080]({self.src})[/]', id='res_dst_src', classes='res_dst_src')
+
+        tmp_dst = self.dst
+        if not target['dst_comment'] == '':
+            tmp_dst = f"{self.dst}[{self.dst_comment}]"
+    
+        self.res_dst_src_col = Label(f'{tmp_dst}\n[#808080]({self.src})[/]', id='res_dst_src', classes='res_dst_src')
         self.res_count_col = Label(f'[green]-[/]\n[red]-[/]', id='res_count', classes='res_count')
         self.res_history_col = Label('', id='res_history', classes="res_history")
 
@@ -45,6 +51,7 @@ class PingRow(Static):
         """"""
         self.dst = target['dst']
         self.src = target['src']
+        self.dst_comment = target['dst_comment']
         self.validate_err = addr_validate_dst(self.dst, self.validate_err)
         if len(self.validate_err['err']) == 0:
             if target['src'] is None or target['src'] == '':
@@ -224,15 +231,17 @@ class PingWidget(Widget):
     def load_target_list(self, target_file_path=None) -> None:
         if target_file_path is not None:
             self.target_file_path = target_file_path
-        with open(self.target_file_path, encoding='UTF-8') as f:
+        with open(self.target_file_path, 'r', encoding='UTF-8') as f:
             rows = reader(f)
             self.target_list = []
             for row in rows:
                 if not row:
                     continue
                 elif len(row) == 1:
-                    row.append('')
-                self.target_list.append({'dst': row[0], 'src': row[1]})
+                    row += ['', '']
+                elif len(row) >= 2:
+                    row += ['']
+                self.target_list.append({'dst': row[0], 'src': row[1], 'dst_comment': row[2]})
         
     def set_target(self, target_list=None) -> None:
         if target_list is not None:
@@ -369,7 +378,7 @@ if __name__ == '__main__':
 
     try:
         ping_app = PingApp(options=options)
-        ping_app.run()
+        ping_app.run(clear_on_exit=False)
     except Exception as e:
         logger.info(e.args)
     finally:
