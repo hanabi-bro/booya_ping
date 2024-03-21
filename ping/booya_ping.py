@@ -184,9 +184,6 @@ if __name__ == '__main__':
             'cache-clear': args.cache_clear,
         }
 
-    print(options)
-    exit()
-
     app = BooyaPing(options=options)
 
     try:
