@@ -132,9 +132,7 @@ python -m nuitka `
   --output-filename=booya_ping `
   --include-package=pygments `
   --include-data-file="./ping/booya_ping.tcss=./" `
-  --include-data-file="./ping/config.ini=./" `
   --include-data-file="./README.md=./" `
-  --force-stderr-spec="%PROGRAM_BASE%.err.log" `
   --windows-icon-from-ico="./icon/booya_ping.ico" `
   .\ping\booya_ping.py
 ```
