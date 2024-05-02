@@ -221,7 +221,7 @@ class PingWidget(Widget):
         self.target_list = []
         if target_list:
             for l in target_list:
-                self.target_list.append({'dst': l, 'src': None})
+                self.target_list.append({'dst': l, 'src': None, 'dst_comment': None})
             self.set_target()
         elif target_file:
             self.load_target_list(target_file)
